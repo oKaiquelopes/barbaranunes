@@ -16,6 +16,7 @@
     initScrollProgress();
     initHeroThread();
     initSmoothAnchors();
+    initContactForm();
   }
 
   /* Ano dinâmico no rodapé */
@@ -160,6 +161,120 @@
         hero.classList.add('is-loaded');
       }, 250);
     });
+  }
+
+  /* Formulário de contato — validação amigável + envio direto pelo WhatsApp */
+  function initContactForm() {
+    var form = document.getElementById('contatoForm');
+    if (!form) return;
+
+    var whatsInput = document.getElementById('contatoWhats');
+    if (whatsInput) {
+      whatsInput.addEventListener('input', function () {
+        whatsInput.value = maskPhoneBR(whatsInput.value);
+      });
+    }
+
+    var requiredFields = {
+      contatoNome: 'Quero saber como te chamar. Preencha este campo antes de continuar.',
+      contatoWhats: 'Preciso de um WhatsApp para poder te responder com carinho.',
+      contatoMotivo: 'Me conte um pouco do que te trouxe até aqui.',
+      contatoNecessidade: 'Compartilhe comigo o que você sente que mais precisa agora.'
+    };
+
+    Object.keys(requiredFields).forEach(function (id) {
+      var input = document.getElementById(id);
+      if (!input) return;
+      input.addEventListener('input', function () {
+        clearFieldError(input);
+      });
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var isValid = true;
+      var firstInvalid = null;
+
+      Object.keys(requiredFields).forEach(function (id) {
+        var input = document.getElementById(id);
+        if (!input) return;
+
+        var value = input.value.trim();
+        var isPhone = id === 'contatoWhats';
+        var phoneDigits = value.replace(/\D/g, '');
+        var isEmpty = !value || (isPhone && phoneDigits.length < 10);
+
+        if (isEmpty) {
+          isValid = false;
+          setFieldError(input, requiredFields[id]);
+          if (!firstInvalid) firstInvalid = input;
+        } else {
+          clearFieldError(input);
+        }
+      });
+
+      if (!isValid) {
+        if (firstInvalid) firstInvalid.focus();
+        return;
+      }
+
+      var nome = document.getElementById('contatoNome').value.trim();
+      var whatsapp = document.getElementById('contatoWhats').value.trim();
+      var motivo = document.getElementById('contatoMotivo').value.trim();
+      var necessidade = document.getElementById('contatoNecessidade').value.trim();
+      var porqueEl = document.getElementById('contatoPorque');
+      var porque = porqueEl ? porqueEl.value.trim() : '';
+
+      var linhas = [
+        'Olá, Bárbara! Meu nome é ' + nome + '.',
+        '',
+        'Meu WhatsApp é: ' + whatsapp,
+        '',
+        'O que me trouxe até aqui:',
+        motivo,
+        '',
+        'O que sinto que mais preciso neste momento:',
+        necessidade
+      ];
+
+      if (porque) {
+        linhas.push('', 'Por que sinto que esse trabalho pode ser para mim:', porque);
+      }
+
+      linhas.push('', 'Gostaria de conversar sobre a Dança Divina Integrativa.');
+
+      var mensagem = linhas.join('\n');
+      var numeroWhatsapp = '5511981236416';
+      var url = 'https://wa.me/' + numeroWhatsapp + '?text=' + encodeURIComponent(mensagem);
+
+      window.open(url, '_blank', 'noopener');
+    });
+  }
+
+  function setFieldError(input, message) {
+    var wrapper = input.closest('.contato__field');
+    if (!wrapper) return;
+    wrapper.classList.add('is-invalid');
+    var hint = wrapper.querySelector('.contato__hint');
+    if (hint) hint.textContent = message;
+  }
+
+  function clearFieldError(input) {
+    var wrapper = input.closest('.contato__field');
+    if (!wrapper) return;
+    wrapper.classList.remove('is-invalid');
+    var hint = wrapper.querySelector('.contato__hint');
+    if (hint) hint.textContent = '';
+  }
+
+  /* Máscara de telefone brasileiro: (00) 00000-0000 */
+  function maskPhoneBR(value) {
+    var digits = value.replace(/\D/g, '').slice(0, 11);
+    if (digits.length <= 2) return digits.replace(/^(\d{0,2})/, '($1');
+    if (digits.length <= 6) return digits.replace(/^(\d{2})(\d{0,4})/, '($1) $2');
+    if (digits.length <= 10) return digits.replace(/^(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+    return digits.replace(/^(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
   }
 
   /* Scroll suave para links internos (fallback além do CSS scroll-behavior) */
