@@ -1249,6 +1249,19 @@ p:last-child{ margin-bottom:0; }
 
   .contato__form{ padding: 1.7rem 1.3rem; gap: 1.4rem; }
   .contato__submit{ width: 100%; }
+
+  /* Footer — correção exclusiva de layout mobile */
+  .footer__inner{
+    grid-template-columns: 1fr;
+    gap: 2.6rem;
+  }
+  .logo--footer{ white-space: normal; }
+  .logo__mark-footer{ height: 72px; width: 72px; }
+  .footer__bottom{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
 }
 
 
