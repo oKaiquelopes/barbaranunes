@@ -45,6 +45,8 @@
 
   /* textura de grão de papel, muito discreta */
   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.35 0 0 0 0 0.27 0 0 0 0 0.16 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* mosqueado orgânico de escala maior — imperfeições sutis de tonalidade do papel */
+  --grain-fiber: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='340' height='340'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.35 0 0 0 0 0.27 0 0 0 0 0.16 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
 }
 
 *, *::before, *::after{ box-sizing: border-box; }
@@ -67,6 +69,26 @@ body{
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+}
+
+/* Camada de envelhecimento — vinheta quente e mosqueado orgânico muito discretos,
+   fixos em relação à tela para dar a sensação de um material único fotografado,
+   e não de uma textura repetida por seção. */
+body::after{
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  background-image:
+    var(--grain-fiber),
+    radial-gradient(ellipse 130% 90% at 18% 0%, rgba(140,106,60,0.05), transparent 58%),
+    radial-gradient(ellipse 130% 90% at 100% 12%, rgba(59,42,27,0.045), transparent 55%),
+    radial-gradient(ellipse 120% 100% at 8% 100%, rgba(59,42,27,0.05), transparent 55%),
+    radial-gradient(ellipse 60% 60% at 50% 45%, transparent 60%, rgba(59,42,27,0.05) 100%);
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-size: 340px auto, auto, auto, auto, auto;
+  mix-blend-mode: multiply;
 }
 
 img{ max-width:100%; display:block; }
@@ -162,10 +184,10 @@ p:last-child{ margin-bottom:0; }
 .section:not(.hero)::before{
   content: "";
   display: block;
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   margin: 0 auto clamp(2.2rem, 4vw, 3.4rem);
-  background-image: url("assets/images/rosa-topo.png");
+  background-image: url("assets/images/rosepequen.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -330,7 +352,6 @@ p:last-child{ margin-bottom:0; }
   align-items:center;
   padding: 9rem 0 4.5rem;
   background:
-    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20240%20400%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22rgba%28169%2C133%2C63%2C0.05%29%22%20stroke-width%3D%221.3%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M%20126.0%2C110.0%20L%20126.5%2C110.7%20L%20126.8%2C111.5%20L%20127.1%2C112.4%20L%20127.2%2C113.3%20L%20127.1%2C114.3%20L%20126.8%2C115.2%20L%20126.3%2C116.2%20L%20125.7%2C117.1%20L%20125.0%2C118.1%20L%20124.2%2C119.1%20L%20123.2%2C120.0%20L%20122.1%2C121.0%20L%20120.7%2C121.7%20L%20119.2%2C122.1%20L%20117.6%2C122.3%20L%20116.0%2C122.2%20L%20114.4%2C121.8%20L%20112.8%2C121.3%20L%20111.2%2C120.7%20L%20109.5%2C120.1%20L%20107.7%2C119.4%20L%20105.8%2C118.4%20L%20104.1%2C117.2%20L%20102.6%2C115.7%20L%20101.6%2C113.9%20L%20101.1%2C111.9%20L%20100.9%2C109.8%20L%20101.1%2C107.8%20L%20101.3%2C105.8%20L%20101.6%2C103.7%20L%20101.9%2C101.4%20L%20102.3%2C99.0%20L%20103.0%2C96.6%20L%20104.1%2C94.2%20L%20105.8%2C92.0%20L%20108.0%2C90.4%20L%20110.6%2C89.2%20L%20113.3%2C88.6%20L%20116.1%2C88.1%20L%20118.9%2C87.8%20L%20121.8%2C87.4%20L%20124.8%2C86.9%20L%20128.1%2C86.5%20L%20131.5%2C86.4%20L%20135.0%2C87.0%20L%20138.2%2C88.3%20L%20140.9%2C90.2%20L%20143.1%2C92.8%20L%20144.8%2C95.5%20L%20146.2%2C98.4%20L%20147.5%2C101.3%20L%20149.1%2C104.1%20L%20150.8%2C107.2%20L%20152.4%2C110.5%20L%20153.5%2C114.2%20L%20153.8%2C118.0%20L%20153.1%2C121.7%20L%20151.3%2C125.2%20L%20148.8%2C128.2%20L%20145.8%2C130.8%20L%20142.8%2C133.1%20L%20139.8%2C135.6%20L%20136.8%2C138.2%20L%20133.7%2C141.0%20L%20130.1%2C143.7%20L%20126.0%2C146.0%20L%20121.5%2C147.4%20L%20116.7%2C147.6%20L%20112.0%2C146.7%20L%20107.6%2C145.0%20L%20103.6%2C142.8%20L%2099.8%2C140.5%20L%2095.9%2C138.4%20L%2091.7%2C136.3%20L%2087.2%2C134.0%20L%2082.8%2C131.3%20L%2078.9%2C127.8%20L%2076.0%2C123.6%20L%2074.4%2C118.8%20L%2074.2%2C113.8%20L%2075.0%2C108.9%20L%2076.4%2C104.2%20L%2077.7%2C99.6%20L%2078.9%2C95.0%20L%2079.9%2C90.1%20L%2081.1%2C84.9%20L%2083.0%2C79.7%20L%2085.9%2C74.8%20L%2090.2%2C70.7%20L%2095.4%2C67.9%20L%20101.2%2C66.3%20L%20107.2%2C65.6%20L%20113.0%2C65.5%20L%20118.7%2C65.2%20L%20124.4%2C64.7%20L%20130.5%2C64.0%20L%20136.9%2C63.5%20L%20143.6%2C63.8%20L%20150.1%2C65.4%20L%20156.0%2C68.5%20L%20160.7%2C72.9%20L%20164.2%2C78.2%20L%20166.7%2C83.8%20L%20168.8%2C89.4%20L%20171.0%2C94.8%20L%20173.6%2C100.1%20L%20176.4%2C105.8%20L%20179.0%2C112.0%20L%20180.7%2C118.6%20L%20180.6%2C125.4%20L%20178.6%2C131.9%20L%20174.8%2C137.7%20L%20169.7%2C142.6%20L%20164.1%2C146.7%20L%20158.5%2C150.5%20L%20153.2%2C154.5%20L%20148.0%2C158.8%20L%20142.4%2C163.5%20L%20136.2%2C167.9%20L%20129.0%2C171.4%20L%20121.2%2C173.1%20L%20113.2%2C172.9%20L%20105.5%2C170.8%20L%2098.5%2C167.3%20L%2092.1%2C163.2%20L%2086.1%2C159.2%20L%2079.8%2C155.5%20L%2073.1%2C152.0%20L%2066.0%2C148.2%20L%2059.1%2C143.5%20L%2053.2%2C137.6%20L%2049.1%2C130.6%20L%2047.3%2C122.8%20L%2047.6%2C114.8%20L%2049.5%2C107.1%20L%2052.0%2C99.8%20L%2054.4%2C92.8%20L%2056.4%2C85.6%20L%2058.0%2C78.0%20L%2060.1%2C70.0%22/%3E%3Ccircle%20cx%3D%22120%22%20cy%3D%22110%22%20r%3D%223.2%22/%3E%3Cpath%20d%3D%22M120%2C178%20C110%2C220%20128%2C258%20118%2C296%20C110%2C326%20126%2C354%20120%2C388%22/%3E%3Cpath%20d%3D%22M118%2C238%20C96%2C232%2078%2C216%2066%2C196%20C84%2C202%20106%2C212%20120%2C234%22/%3E%3Cpath%20d%3D%22M120%2C300%20C142%2C294%20160%2C278%20172%2C258%20C154%2C264%20132%2C274%20118%2C296%22/%3E%3C/g%3E%3C/svg%3E"),
     var(--grain),
     radial-gradient(ellipse at 82% 20%, rgba(169,133,63,0.14), transparent 55%),
     linear-gradient(180deg, var(--linen) 0%, var(--paper) 100%);
@@ -341,8 +362,38 @@ p:last-child{ margin-bottom:0; }
   overflow: hidden;
 }
 .hero__thread{
-  position: absolute; top:0; right: 4%; width: 38%; height: 100%;
-  pointer-events: none; opacity: 0.5;
+  position: absolute;
+  top: 50%;
+  right: clamp(0rem, 2vw, 2rem);
+  width: min(49vw, 620px);
+  height: min(92vh, 820px);
+  transform: translateY(-50%);
+  pointer-events: none;
+  opacity: 0.78;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero__thread::before{
+  content: '';
+  position: absolute;
+  inset: 8% 2% 8% 2%;
+  background: radial-gradient(circle at 50% 50%, rgba(169,133,63,0.10), transparent 64%);
+  filter: blur(10px);
+}
+
+.hero__thread img{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  filter: sepia(0.16) saturate(1.05) contrast(1.0) brightness(0.99);
+  opacity: 0.92;
+  margin-top: -60%;
+  margin-left: 40%;
 }
 .hero__thread svg{ width:100%; height:100%; }
 .hero__thread path{
@@ -400,7 +451,7 @@ p:last-child{ margin-bottom:0; }
 }
 .hero__frame img{
   width:100%; height:100%; object-fit: cover;
-  filter: sepia(0.28) saturate(1.18) contrast(1.03) brightness(1.02) hue-rotate(-6deg);
+  filter: sepia(0.32) saturate(1.06) contrast(0.99) brightness(0.99) hue-rotate(-6deg);
 }
 .hero__frame::after{
   content:'';
@@ -438,7 +489,7 @@ p:last-child{ margin-bottom:0; }
   box-shadow: var(--shadow-soft);
   aspect-ratio: 4/5;
   object-fit: cover;
-  filter: sepia(0.28) saturate(1.15) contrast(1.02) brightness(1.02) hue-rotate(-6deg);
+  filter: sepia(0.32) saturate(1.05) contrast(0.99) brightness(0.99) hue-rotate(-6deg);
 }
 .sobre__media-frame{
   position:absolute; top: 1.4rem; left: -1.4rem;
@@ -1062,7 +1113,7 @@ p:last-child{ margin-bottom:0; }
   transition: transform 0.5s var(--ease), border-color 0.5s var(--ease);
 }
 .incluso__item:hover{ transform: translateY(-4px); border-color: var(--gold); }
-.incluso__icon{ width: 28px; height:28px; color: var(--bronze); }
+.incluso__icon{ width: 38px; height:38px; color: var(--bronze); }
 .incluso__icon svg{ width:100%; height:100%; }
 .incluso__item span:last-child{ font-size: 0.86rem; color: var(--ink-soft); font-weight: 500; }
 
@@ -1124,7 +1175,7 @@ p:last-child{ margin-bottom:0; }
 }
 .galeria__item img{
   width:100%; height:100%; object-fit: cover;
-  filter: sepia(0.28) saturate(1.15) contrast(1.02) brightness(1.02) hue-rotate(-6deg);
+  filter: sepia(0.32) saturate(1.05) contrast(0.99) brightness(0.99) hue-rotate(-6deg);
   transition: transform 1.2s var(--ease);
 }
 .galeria__item:hover img{ transform: scale(1.05); }
@@ -1198,4 +1249,87 @@ p:last-child{ margin-bottom:0; }
 
   .contato__form{ padding: 1.7rem 1.3rem; gap: 1.4rem; }
   .contato__submit{ width: 100%; }
+}
+
+
+/* ==========================================================================
+   HERO — composição final da rosa com a fotografia
+   ========================================================================== */
+.hero__media{
+  position: relative;
+  z-index: 3;
+}
+
+.hero__frame{
+  position: relative;
+  z-index: 4;
+}
+
+.hero__caption{
+  position: relative;
+  z-index: 5;
+}
+
+.hero__copy{
+  position: relative;
+  z-index: 4;
+}
+
+@media (max-width: 900px){
+  .hero{
+    padding-top: 8rem;
+    padding-bottom: 6rem;
+  }
+
+  .hero__thread{
+    width: min(70vw, 560px);
+    height: min(70vh, 600px);
+    right: -8vw;
+    top: 52%;
+    opacity: 0.55;
+  }
+
+  .hero__inner{
+    grid-template-columns: 1fr 0.8fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 700px){
+  .hero{
+    min-height: auto;
+    padding-top: 8.5rem;
+    padding-bottom: 5.5rem;
+  }
+
+  .hero__inner{
+    grid-template-columns: 1fr;
+    gap: 3.2rem;
+  }
+
+  .hero__thread{
+    width: 92vw;
+    height: 62vh;
+    max-height: 520px;
+    right: -24vw;
+    top: 72%;
+    opacity: 0.38;
+  }
+
+  .hero__media{
+    width: min(88vw, 430px);
+    justify-self: center;
+  }
+
+  .hero__frame{
+    aspect-ratio: 4 / 5;
+  }
+
+  .hero__title{
+    font-size: clamp(2.25rem, 10vw, 3.2rem);
+  }
+
+  .scroll-cue{
+    display: none;
+  }
 }
