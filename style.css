@@ -1157,30 +1157,92 @@ p:last-child{ margin-bottom:0; }
 /* ==========================================================================
    Galeria — composição orgânica, não um grid comum
    ========================================================================== */
-.galeria{ background: var(--paper-deep); }
-.galeria__grid{
-  display:grid;
+.galeria {
+  background: var(--paper-deep);
+}
+
+.galeria__grid {
+  display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 130px;
-  gap: 0.9rem;
+  grid-auto-rows: 260px;
+  gap: 1rem;
 }
-.galeria__item{
-  margin:0;
-  overflow:hidden;
+
+.galeria__item {
+  margin: 0;
+  overflow: hidden;
   border-radius: var(--radius-md);
-  border: 1px solid rgba(169,133,63,0.3);
-  box-shadow: 0 18px 40px -30px rgba(59,42,27,0.35);
-  grid-column: span 1;
-  grid-row: span 3;
+  border: 1px solid rgba(169, 133, 63, 0.3);
+  box-shadow: 0 18px 40px -30px rgba(59, 42, 27, 0.35);
 }
-.galeria__item img{
-  width:100%; height:100%; object-fit: cover;
-  filter: sepia(0.32) saturate(1.05) contrast(0.99) brightness(0.99) hue-rotate(-6deg);
+
+.galeria__item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: sepia(0.32) saturate(1.05) contrast(0.99) brightness(0.99)
+    hue-rotate(-6deg);
   transition: transform 1.2s var(--ease);
 }
-.galeria__item:hover img{ transform: scale(1.05); }
-.galeria__item--tall{ grid-row: span 4; }
-.galeria__item--wide{ grid-column: span 2; grid-row: span 2; }
+
+.galeria__item:hover img {
+  transform: scale(1.04);
+}
+
+/* Composição */
+.galeria__item--tall {
+  grid-row: span 2;
+}
+
+.galeria__item--wide {
+  grid-column: span 2;
+}
+
+@media (max-width: 600px) {
+
+  .galeria__grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+
+  .galeria__item,
+  .galeria__item--tall,
+  .galeria__item--wide {
+    display: block !important;
+    width: 100% !important;
+    height: 260px !important;
+    min-height: 260px !important;
+    max-height: 260px !important;
+
+    margin: 0 !important;
+
+    grid-column: auto !important;
+    grid-row: auto !important;
+
+    aspect-ratio: auto !important;
+
+    overflow: hidden !important;
+    position: relative !important;
+  }
+
+  .galeria__item img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: cover !important;
+    object-position: center !important;
+
+    transform: none;
+  }
+
+  .galeria__item:hover img {
+    transform: none !important;
+  }
+}
 
 /* ==========================================================================
    Responsive
